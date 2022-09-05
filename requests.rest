@@ -1,0 +1,41 @@
+### Create wallet
+
+POST http://localhost:3000/wallet/create
+Content-Type: application/json
+
+{
+    "walletAddress": "hellothere"
+}
+
+###
+
+### Authenticate
+### Enter the username and the keyphrase
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "walletAddress": "hellothere"
+}
+
+### Authorize
+
+POST http://localhost:3000/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3YWxsZXRBZGRyZXNzIjoiaGVsbG90aGVyZSIsImlhdCI6MTY2MjM5NjY2MX0.PSQ3d5Mnp_7lJGXL7szHC12k4L39_RISg2OpxmcAtD4"
+}
+
+### Enter the access token given.
+
+GET http://localhost:3000/wallet
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjIzOTY2ODUsImV4cCI6MTY2MjM5OTY4NX0.SPdC10DH2-iGgs9RIxbOLi44yfg4WkPLOxABjod2JWY
+
+{
+    "walletAddress": "hellothere"
+   
+}
+###
