@@ -26,12 +26,15 @@ let refreshTokens: string[] = [];
 app.post("/login", (req, res) => {
   // Authenticate User
 
-  const walletAddress = req.body.walletAddress;
-  const user = { walletAddress: walletAddress };
+  const keyPhrase = req.body.keyPhrase;
+  const user = { keyPhrase: keyPhrase };
   console.log(user);
+  console.log("- - - - - - - - - - /login end - - - - - - - - - -");
   const accessToken = generateAccessToken(user);
   const refreshToken = jwt.sign(
-    user,
+    {
+      user,
+    },
     process.env.REFRESH_TOKEN_SECRET as string
   );
   refreshTokens.push(refreshToken);
@@ -47,7 +50,7 @@ function generateAccessToken(user: {}) {
 
 app.post("/token", (req, res) => {
   const refreshToken = req.body.token;
-  console.log(refreshToken);
+
   if (refreshToken == null) return res.sendStatus(401);
   if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
   jwt.verify(
@@ -55,7 +58,9 @@ app.post("/token", (req, res) => {
     process.env.REFRESH_TOKEN_SECRET as string,
     (err: any, user: any) => {
       if (err) return res.sendStatus(403);
-      const accessToken = generateAccessToken({ name: user.name });
+      const accessToken = generateAccessToken({ keyPhrase: refreshToken });
+      console.log(accessToken);
+      console.log("- - - - - - - - - - /token end - - - - - - - - - -");
       res.json({ accessToken: accessToken });
     }
   );
@@ -95,14 +100,12 @@ app.use("/", swapRoute);
 //   },
 // ];
 
-app.get("/wallet", authenticateToken, async (req, res) => {
+app.get("/wallet", authenticateToken, async (req: any, res) => {
   // res.json(posts.filter((post) => post.username === req.user.name));
-  console.log(req.body.bruh);
 
-  const wallet = await getWallet(req.body.walletAddress);
+  const wallet = await getWallet(req.keyPhrase);
+  console.log(JSON.stringify(req.keyPhrase));
   console.log(`wallet = ${wallet}`);
-  console.log(JSON.stringify(req.body));
-  console.log("getWallet called with address : " + req.body.walletAddress);
   res.json(wallet);
 });
 
@@ -114,10 +117,12 @@ function authenticateToken(req: any, res: any, next: any) {
   jwt.verify(
     token,
     process.env.ACCESS_TOKEN_SECRET as string,
-    (err: any, user: any) => {
+    (err: any, encoded: any) => {
       console.log(err);
       if (err) return res.sendStatus(403);
-      req.user = user;
+      //@ts-ignore
+      var decoded = jwt.decode(encoded, { complete: true })?.payload.keyPhrase;
+      req.keyPhrase = decoded;
       next();
     }
   );

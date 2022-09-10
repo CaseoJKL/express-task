@@ -3,13 +3,30 @@ import mongoose from "mongoose";
 const WalletSchema = new mongoose.Schema({
   balance: {
     type: {
-      USDT: { type: Number, default: 0 },
-      ETH: { type: Number, default: 0 },
+      USDT: {
+        amount: { type: Number, default: 1000 },
+        depositAddress: String,
+      },
+      ETH: {
+        amount: { type: Number, default: 0 },
+        depositAddress: String,
+      },
     },
     default: {},
   },
-  walletAddress: String,
+  keyPhrase: String,
 });
+
+// const WalletSchema = new mongoose.Schema({
+//   balance: {
+//     type: {
+//       USDT: { type: Number, default: { value: 0 } },
+//       ETH: { type: Number, default: 0 },
+//     },
+//     default: {},
+//   },
+//   keyPhrase: String,
+// });
 
 export default mongoose.model("Wallet", WalletSchema);
 
@@ -24,7 +41,7 @@ export default mongoose.model("Wallet", WalletSchema);
 
 //   await model.create({
 //     balance: { USDT: 100 },
-//     walletAddress: "0x123",
+//     keyPhrase: "0x123",
 //   });
 
 //   const wallet = await model.findOne();

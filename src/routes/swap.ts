@@ -13,7 +13,7 @@ router.patch("/swap", async (req, res) => {
   if (
     typeof req.body.from !== "string" ||
     typeof req.body.to !== "string" ||
-    typeof req.body.walletAddress !== "string"
+    typeof req.body.keyPhrase !== "string"
   )
     return res.status(400).json("Invalid body parameters");
 
@@ -22,13 +22,13 @@ router.patch("/swap", async (req, res) => {
 
   const fromSymbolName = req.body.from.toUpperCase();
   const toSymbolName = req.body.to.toUpperCase();
-  const walletAddress = req.body.walletAddress;
+  const keyPhrase = req.body.keyPhrase;
   const result = await axios({
     method: "post",
     url: `https://min-api.cryptocompare.com/data/price?fsym=${toSymbolName}&tsyms=${fromSymbolName}&api_key=${process.env.CRYPTOCOMPARE_API_KEY}`,
   });
 
-  const wallet = await getWallet(walletAddress);
+  const wallet = await getWallet(keyPhrase);
   if (!wallet) return res.status(404).json("Wallet address does not exist");
   console.log("wallet: ", wallet);
   // Update wallet balances here
@@ -39,7 +39,7 @@ router.patch("/swap", async (req, res) => {
   return res.json();
   // try {
   //   const { modifiedCount } = await Wallet.updateOne(
-  //     { walletAddress: walletAddress }
+  //     { keyPhrase: keyPhrase }
   //     // { balance[0].USDT?? : ?? } // This part is where I'm getting confused how to write the logic to access and change both USDT and ETH values.I know I probably would need to use Model.updateMany() instead of Model.updateOne()
   //   );
   //   console.log("Wallet address updated successfully.");

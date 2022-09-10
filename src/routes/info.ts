@@ -24,24 +24,24 @@ router.get("/info/prices/:symbolName", async (req, res) => {
   res.json(result.data);
 });
 
-router.get("/wallet/:walletAddress", async (req, res) => {
-  if (typeof req.params.walletAddress !== "string")
-    return res.status(400).send('Body parameter "walletAddress" is required.');
-  const walletAddress = req.params.walletAddress;
+// router.get("/wallet/:keyPhrase", async (req, res) => {
+//   if (typeof req.params.keyPhrase !== "string")
+//     return res.status(400).send('Body parameter "keyPhrase" is required.');
+//   const keyPhrase = req.params.keyPhrase;
 
-  const wallet = await Wallet.findOne({
-    walletAddress: walletAddress,
-  });
-  if (wallet) return res.status(400).send("Wallet address already exists.");
-  await createWallet(walletAddress);
+//   const wallet = await Wallet.findOne({
+//     keyPhrase: keyPhrase,
+//   });
+//   if (wallet) return res.status(400).send("Wallet address already exists.");
+//   await createWallet();
 
-  return res.json({
-    // @ts-ignore: Object is possibly 'null'.
-    walletAddress: wallet.walletAddress,
-    // @ts-ignore: Object is possibly 'null'.
-    balance: wallet.balance,
-  });
-});
+//   return res.json({
+//     // @ts-ignore: Object is possibly 'null'.
+//     keyPhrase: wallet.keyPhrase,
+//     // @ts-ignore: Object is possibly 'null'.
+//     balance: wallet.balance,
+//   });
+// });
 
 // POST
 router.post("/info/prices", async (req, res) => {
@@ -58,48 +58,49 @@ router.post("/info/prices", async (req, res) => {
 });
 
 router.post("/wallet/create", async (req, res) => {
-  if (typeof req.body.walletAddress !== "string")
-    return res.status(400).send('Body parameter "walletAddress" is required.');
-  const walletAddress = req.body.walletAddress;
-  let wallet = await createWallet(walletAddress);
+  // if (typeof req.body.keyPhrase !== "string")
+  //   return res.status(400).send('Body parameter "keyPhrase" is required.');
+  // const keyPhrase = req.body.keyPhrase;
+  let wallet = await createWallet();
 
   console.log("wallet: ", wallet);
+  console.log("- - - - - - - - - -");
   return res.json({
-    walletAddress: wallet.walletAddress,
+    keyPhrase: wallet.keyPhrase,
     balance: wallet.balance,
   });
 });
 
 // DELETE
 router.delete("/wallet/delete", async (req, res) => {
-  if (typeof req.body.walletAddress !== "string")
-    return res.status(400).send('Body parameter "walletAddress" is required.');
-  const walletAddress = req.body.walletAddress;
-  let wallet = await deleteWallet(walletAddress);
+  if (typeof req.body.keyPhrase !== "string")
+    return res.status(400).send('Body parameter "keyPhrase" is required.');
+  const keyPhrase = req.body.keyPhrase;
+  let wallet = await deleteWallet(keyPhrase);
 
   console.log("wallet: ", wallet); // We don't return a wallet from deleteWallet, so this log should always be undefined
   return res.json({
     // @ts-ignore: Help
-    walletAddress: wallet.walletAddress,
+    keyPhrase: wallet.keyPhrase,
     // @ts-ignore: Help
     balance: wallet.balance,
   });
 });
 
 router.patch("/wallet", async (req, res) => {
-  if (typeof req.body.walletAddress !== "string")
-    return res.status(400).send('Body parameter "walletAddress" is required.');
-  const walletAddress = req.body.walletAddress;
-  const newWalletAddress = req.body.newWalletAddress;
+  if (typeof req.body.keyPhrase !== "string")
+    return res.status(400).send('Body parameter "keyPhrase" is required.');
+  const keyPhrase = req.body.keyPhrase;
+  const newkeyPhrase = req.body.newkeyPhrase;
 
-  let wallet = await getWallet(walletAddress);
+  let wallet = await getWallet(keyPhrase);
   if (!wallet) return res.status(400).send("Wallet address does not exist.");
-  wallet.walletAddress = newWalletAddress;
+  wallet.keyPhrase = newkeyPhrase;
   await wallet.save();
 
   console.log("wallet: ", wallet);
   return res.json({
-    walletAddress: wallet.walletAddress,
+    keyPhrase: wallet.keyPhrase,
     balance: wallet.balance,
   });
 });
