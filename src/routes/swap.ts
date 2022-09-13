@@ -2,11 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 import axios from "axios";
 import Wallet from "../models/wallet";
-import { getWallet, createWallet, deleteWallet } from "./helpers";
+import { getWallet, createWallet, deleteWallet } from "../components/handlers";
 
 const router = express.Router();
 const app = express();
 
+// Swap a cryptocurrency from `fromSymbolName` to `toSymbolName`.
 router.patch("/swap", async (req, res) => {
   const numberRegex = /^[0-9]+$/;
 

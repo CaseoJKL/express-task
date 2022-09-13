@@ -1,40 +1,42 @@
-interface Coin {
-  name: string;
-  amount: number;
-}
+// // @ts-nocheck //
 
-// Array method
-let array: Coin[] = [
-  { name: "USDT", amount: 12 },
-  { name: "BTC", amount: 0.0001 },
-];
+// interface Coin {
+//   name: string;
+//   amount: number;
+// }
 
-// way 1
-const usdt1: Coin | undefined = array.find((item) => item.name === "USDT");
+// // Array method
+// let array: Coin[] = [
+//   { name: "USDT", amount: 12 },
+//   { name: "BTC", amount: 0.0001 },
+// ];
 
-// way 2
-let btc1: undefined | Coin = undefined;
-for (let i = 0; i < array.length; i++) {
-  if (array[i].name === "BTC") {
-    btc1 = array[i];
-  }
-}
+// // way 1
+// const usdt1: Coin | undefined = array.find((item) => item.name === "USDT");
 
-//
-//
-//
-// Object method
-// This is all to the object method?
+// // way 2
+// let btc1: undefined | Coin = undefined;
+// for (let i = 0; i < array.length; i++) {
+//   if (array[i].name === "BTC") {
+//     btc1 = array[i];
+//   }
+// }
 
-let object: { [key: string]: { amount: number } } = {
-  USDT: { amount: 12 },
-  BTC: { amount: 0.0001 },
-};
+// //
+// //
+// //
+// // Object method
+// // This is all to the object method?
 
-const usdt: { amount: number } = object["USDT"];
+// let object: { [key: string]: { amount: number } } = {
+//   USDT: { amount: 12 },
+//   BTC: { amount: 0.0001 },
+// };
 
-// let arrayTemp: any = [1, 2, 3, 4, 5];
-// console.log("Object.keys(arrayTemp): ", Object.keys(arrayTemp));
+// const usdt: { amount: number } = object["USDT"];
 
-// let objectTemp: any = { 0: "", 1: "", 2: "", 3: "", 4: "" };
-// console.log("Object.keys(objectTemp): ", Object.keys(objectTemp));
+// // let arrayTemp: any = [1, 2, 3, 4, 5];
+// // console.log("Object.keys(arrayTemp): ", Object.keys(arrayTemp));
+
+// // let objectTemp: any = { 0: "", 1: "", 2: "", 3: "", 4: "" };
+// // console.log("Object.keys(objectTemp): ", Object.keys(objectTemp));

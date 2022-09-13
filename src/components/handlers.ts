@@ -15,12 +15,6 @@ export async function getWallet(keyPhrase: string) {
 
 // Create One
 export async function createWallet() {
-  // Because we are explicitly calling "CREATE wallet", we probably don't actually want to continue if there is a wallet -- we may want to error instead.
-  // let wallet = await getWallet(keyPhrase);
-
-  // let walletExists = await Wallet.findOne({ keyPhrase: keyPhrase });
-  // if (walletExists) throw new Error("Wallet already exists.");
-
   const rando = crypto.randomBytes(16).toString("hex");
   console.log(rando);
 
