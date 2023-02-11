@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import infoRoute from "./routes/info";
 import swapRoute from "./routes/swap";
 import walletRoute from "./routes/wallet";
+import testRoute from "./routes/testRoute";
 import morgan from "morgan";
 import { getWallet } from "./components/handlers";
 
@@ -94,6 +95,7 @@ mongoose.connect(process.env.DB_CONNECTION).then(() => {
 app.use("/", walletRoute);
 app.use("/", infoRoute);
 app.use("/", swapRoute);
+app.use("/", testRoute);
 
 // const wallets = [
 //   {
