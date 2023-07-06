@@ -1,12 +1,28 @@
 import mongoose from "mongoose";
 
-const WalletSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   user: {
     // type: {
-    username: String,
-    firstname: String,
-    lastname: String,
-    password: String,
+    username: {
+      type: String,
+      required: true,
+    },
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
 
     // },
     // default: {},
@@ -14,7 +30,7 @@ const WalletSchema = new mongoose.Schema({
   keyPhrase: String,
 });
 
-export default mongoose.model("Wallet", WalletSchema);
+export default mongoose.model("User", UserSchema);
 
 // user = {
 //     name: 'lawlzer',
