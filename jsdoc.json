@@ -1,0 +1,9 @@
+{
+  "source": {
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/*.spec.ts"]
+  },
+  "opts": {
+    "destination": "docs/"
+  }
+}
